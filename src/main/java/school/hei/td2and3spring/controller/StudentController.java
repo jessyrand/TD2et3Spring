@@ -24,13 +24,12 @@ public class StudentController {
 
     @PostMapping("/students")
     public String createStudents(@RequestBody List<Student> students){
-        List<Student> result = new ArrayList<>();
 
         for (Student student : students){
-            result = studentService.save(student);
+            studentService.save(student);
         }
 
-        return result
+        return studentService.getALl()
                 .stream()
                 .map(s->s.getFirstName() + " " + s.getLastName())
                 .collect(Collectors.joining("\n"));
