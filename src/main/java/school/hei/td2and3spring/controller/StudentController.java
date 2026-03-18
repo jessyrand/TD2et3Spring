@@ -1,9 +1,11 @@
 package school.hei.td2and3spring.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import school.hei.td2and3spring.entity.Student;
 import school.hei.td2and3spring.service.StudentService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class StudentController {
@@ -17,5 +19,16 @@ public class StudentController {
     @GetMapping("/welcome")
     public String welcome(@RequestParam String name){
         return "Welcome "+name+"!";
+    }
+
+    @PostMapping("/students")
+    public List<Student> createStudents(@RequestBody List<Student> students){
+        List<Student> result = new ArrayList<>();
+
+        for (Student student : students){
+            result = studentService.save(student);
+        }
+
+        return result;
     }
 }
