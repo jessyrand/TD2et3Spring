@@ -55,7 +55,7 @@ public class StudentController {
                         .status(400)
                         .body("L'entete Accept est requise");
             }
-            if(!(acceptHeader.equalsIgnoreCase("application/json")||acceptHeader.equalsIgnoreCase("text/plain"))){
+            if(!(acceptHeader.equalsIgnoreCase("application/json"))){
                 return ResponseEntity
                         .status(501)
                         .body("Format non supporté.");
