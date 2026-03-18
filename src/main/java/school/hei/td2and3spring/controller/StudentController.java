@@ -10,6 +10,10 @@ public class StudentController {
 
     private StudentService studentService;
 
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
     @GetMapping("/welcome")
     public String welcome(@RequestParam String name){
         return "Welcome "+name+"!";
