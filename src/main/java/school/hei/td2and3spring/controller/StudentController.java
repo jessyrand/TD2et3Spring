@@ -1,5 +1,8 @@
 package school.hei.td2and3spring.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.hei.td2and3spring.entity.Student;
 import school.hei.td2and3spring.service.StudentService;
@@ -17,8 +20,15 @@ public class StudentController {
     }
 
     @GetMapping("/welcome")
-    public String welcome(@RequestParam String name){
-        return "Welcome "+name;
+    public ResponseEntity<String> welcome(@RequestParam String name){
+        if(name == null || name.isBlank()){
+            return ResponseEntity
+                    .status(400)
+                    .body("Le parametre name est requis.");
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("welcome " + name);
     }
 
     @PostMapping("/students")
