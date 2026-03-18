@@ -6,6 +6,7 @@ import school.hei.td2and3spring.service.StudentService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class StudentController {
@@ -22,13 +23,16 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public List<Student> createStudents(@RequestBody List<Student> students){
+    public String createStudents(@RequestBody List<Student> students){
         List<Student> result = new ArrayList<>();
 
         for (Student student : students){
             result = studentService.save(student);
         }
 
-        return result;
+        return result
+                .stream()
+                .map(s->s.getFirstName() + " " + s.getLastName())
+                .collect(Collectors.joining("\n"));
     }
 }
