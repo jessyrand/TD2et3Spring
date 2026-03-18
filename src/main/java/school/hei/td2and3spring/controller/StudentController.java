@@ -32,16 +32,19 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public String createStudents(@RequestBody List<Student> students){
+    public ResponseEntity<?> createStudents(@RequestBody List<Student> students){
+        try {
+            for (Student student : students){
+                studentService.save(student);
+            }
 
-        for (Student student : students){
-            studentService.save(student);
+            return ResponseEntity.status(201).body(studentService.getAll());
+
+        } catch (Exception e){
+            return ResponseEntity
+                    .status(500).body("Internal Server Error");
         }
 
-        return studentService.getAll()
-                .stream()
-                .map(s->s.getFirstName() + " " + s.getLastName())
-                .collect(Collectors.joining("\n"));
     }
 
     @GetMapping("/students")
