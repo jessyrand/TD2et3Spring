@@ -14,7 +14,7 @@ public class StudentService {
         this.students = new ArrayList<>();
     }
 
-    public List<Student> getALl(){
+    public List<Student> getAll(){
         return students;
     }
 
