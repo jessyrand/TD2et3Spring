@@ -48,14 +48,25 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public String getStudents(@RequestHeader(value = "Accept", defaultValue = "text/plain") String acceptHeader){
-        if(!acceptHeader.equalsIgnoreCase("text/plain")){
-            return "Format non supporté.";
+    public ResponseEntity<?> getStudents(@RequestHeader(value = "Accept", defaultValue = "text/plain") String acceptHeader){
+        try {
+            if(acceptHeader == null || acceptHeader.isBlank()){
+                return ResponseEntity
+                        .status(400)
+                        .body("L'entete Accept est requise");
+            }
+            if(!(acceptHeader.equalsIgnoreCase("application/json")||acceptHeader.equalsIgnoreCase("text/plain"))){
+                return ResponseEntity
+                        .status(501)
+                        .body("Format non supporté.");
+            }
+            return ResponseEntity
+                    .status(200)
+                    .body(studentService.getAll());
+        } catch (Exception e){
+            return ResponseEntity
+                    .status(500).body("Internal Server Error");
         }
 
-        return studentService.getAll()
-                .stream()
-                .map(s -> s.getFirstName() + " " + s.getLastName())
-                .collect(Collectors.joining("\n"));
     }
 }
