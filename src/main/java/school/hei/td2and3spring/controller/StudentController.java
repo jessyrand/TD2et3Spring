@@ -20,19 +20,14 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<?> createStudents(@RequestBody List<Student> students){
-        try {
-            for (Student student : students){
-                studentService.save(student);
-            }
+    public ResponseEntity<?> createStudents(@RequestBody List<Student> newStudents) {
 
-            return ResponseEntity.status(201).body(studentService.getAll());
+        List<Student> result = studentService.saveStudents(newStudents);
 
-        } catch (Exception e){
-            return ResponseEntity
-                    .status(500).body("Internal Server Error");
-        }
-
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("Content-Type", "application/json")
+                .body(result);
     }
 
     @GetMapping("/students")

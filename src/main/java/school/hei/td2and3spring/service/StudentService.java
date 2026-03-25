@@ -2,24 +2,27 @@ package school.hei.td2and3spring.service;
 
 import org.springframework.stereotype.Service;
 import school.hei.td2and3spring.entity.Student;
+import school.hei.td2and3spring.validator.StudentValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StudentService {
-    private List<Student> students;
+    private final StudentValidator studentValidator;
+    private List<Student> studentsInMemory = new ArrayList<>();
 
-    public StudentService() {
-        this.students = new ArrayList<>();
+    public StudentService(StudentValidator studentValidator) {;
+        this.studentValidator = studentValidator;
     }
 
     public List<Student> getAll(){
-        return students;
+        return studentsInMemory;
     }
 
-    public List<Student> save(Student student){
-        students.add(student);
-        return students;
+    public List<Student> saveStudents(List<Student> newStudents){
+        studentValidator.validate(newStudents);
+        studentsInMemory.addAll(newStudents);
+        return studentsInMemory;
     }
 }
