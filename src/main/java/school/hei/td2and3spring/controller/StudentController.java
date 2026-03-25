@@ -1,14 +1,12 @@
 package school.hei.td2and3spring.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import school.hei.td2and3spring.entity.Student;
 import school.hei.td2and3spring.service.StudentService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class StudentController {
@@ -31,25 +29,13 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<?> getStudents(@RequestHeader(value = "Accept", defaultValue = "text/plain") String acceptHeader){
-        try {
-            if(acceptHeader == null || acceptHeader.isBlank()){
-                return ResponseEntity
-                        .status(400)
-                        .body("L'entete Accept est requise");
-            }
-            if(!(acceptHeader.equalsIgnoreCase("application/json"))){
-                return ResponseEntity
-                        .status(501)
-                        .body("Format non supporté.");
-            }
-            return ResponseEntity
-                    .status(200)
-                    .body(studentService.getAll());
-        } catch (Exception e){
-            return ResponseEntity
-                    .status(500).body("Internal Server Error");
-        }
+    public ResponseEntity<?> getStudents(@RequestHeader(value = "Accept", defaultValue = "application/json") String acceptHeader) {
 
+        List<Student> result = studentService.getAllStudents(acceptHeader);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("Content-Type", "application/json")
+                .body(result);
     }
 }

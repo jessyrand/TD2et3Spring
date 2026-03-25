@@ -16,7 +16,8 @@ public class StudentService {
         this.studentValidator = studentValidator;
     }
 
-    public List<Student> getAll(){
+    public List<Student> getAllStudents(String acceptHeader) {
+        studentValidator.validateAcceptHeader(acceptHeader);
         return studentsInMemory;
     }
 

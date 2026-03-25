@@ -27,24 +27,44 @@ public class StudentValidator {
                         "NewStudent.reference cannot be null"
                 );
             }
+
             if (newStudent.getFirstName() == null || newStudent.getFirstName().isBlank()) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         "NewStudent.firstname cannot be null"
                 );
             }
+
             if (newStudent.getLastName() == null || newStudent.getLastName().isBlank()) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         "NewStudent.lastname cannot be null"
                 );
             }
+
             if (newStudent.getAge() == null || newStudent.getAge().equals(0)) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         "NewStudent.age cannot be null"
                 );
             }
+        }
+    }
+
+    public void validateAcceptHeader(String acceptHeader) {
+
+        if (acceptHeader == null || acceptHeader.isBlank()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "L'entête Accept est requise"
+            );
+        }
+
+        if (!acceptHeader.equalsIgnoreCase("application/json")) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_IMPLEMENTED,
+                    "Format non supporté"
+            );
         }
     }
 }
