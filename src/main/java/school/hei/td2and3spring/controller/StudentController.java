@@ -19,18 +19,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/welcome")
-    public ResponseEntity<String> welcome(@RequestParam String name){
-        if(name == null || name.isBlank()){
-            return ResponseEntity
-                    .status(400)
-                    .body("Le parametre name est requis.");
-        }
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("welcome " + name);
-    }
-
     @PostMapping("/students")
     public ResponseEntity<?> createStudents(@RequestBody List<Student> students){
         try {
